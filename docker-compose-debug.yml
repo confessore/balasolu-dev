@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+
+    api:
+        build:
+            context: .
+            dockerfile: etc/docker/Dockerfile.api.debug
+            target: production
+        restart: always
+
+    client:
+        build:
+            context: .
+            dockerfile: etc/docker/Dockerfile.client.debug
+            target: production
+        restart: always
+
+    nginx:
+        depends_on:
+            - api
+            - client
+        build:
+            context: .
+            dockerfile: etc/docker/nginx-debug.Dockerfile
+        ports:
+            - 80:80
+            - 443:443
+        restart: always

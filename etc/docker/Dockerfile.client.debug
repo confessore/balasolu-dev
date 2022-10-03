@@ -1,0 +1,49 @@
+# base image
+FROM debian:bullseye-slim AS base
+WORKDIR /
+
+# builder for react
+FROM node AS react-builder
+WORKDIR /usr/src/balasolu
+COPY ./src/client/react-app ./src/client/react-app
+WORKDIR /usr/src/balasolu/src/client/react-app
+RUN npm i
+RUN npx tailwindcss init -p
+RUN npm run build --prod
+
+
+FROM rust AS chef
+RUN cargo install cargo-chef
+WORKDIR /
+
+
+FROM chef AS planner
+WORKDIR /usr/src/balasolu
+COPY ./src/client ./src/client
+WORKDIR /usr/src/balasolu/src/client
+RUN cargo chef prepare --recipe-path recipe.json
+
+
+FROM chef AS cacher
+COPY --from=planner /usr/src/balasolu/src/client/recipe.json /usr/src/balasolu/src/client/recipe.json
+WORKDIR /usr/src/balasolu/src/client
+RUN --mount=type=cache,target=/usr/local/cargo/registry \
+    --mount=type=cache,target=/usr/src/balasolu/src/client/target \
+    cargo chef cook --release --recipe-path recipe.json
+
+
+FROM chef AS builder
+WORKDIR /usr/src/balasolu
+COPY ./src/client ./src/client
+COPY --from=cacher /usr/src/balasolu/src/client/target /usr/src/balasolu/src/client/target
+COPY --from=react-builder /usr/src/balasolu/src/client/react-app/build /usr/src/balasolu/src/client/react-app/build
+COPY --from=cacher $CARGO_HOME $CARGO_HOME
+WORKDIR /usr/src/balasolu/src/client
+RUN --mount=type=cache,target=/usr/local/cargo/registry \
+    cargo build --release
+
+
+FROM base AS production
+COPY --from=builder /usr/src/balasolu/src/client/target/release/client /usr/local/bin/client
+COPY --from=react-builder /usr/src/balasolu/src/client/react-app/build /usr/local/bin/react-app/build
+CMD ["client"]

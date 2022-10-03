@@ -1,0 +1,37 @@
+FROM debian:bullseye-slim AS base
+WORKDIR /
+
+
+FROM rust AS chef
+RUN cargo install cargo-chef
+WORKDIR /
+
+
+FROM chef AS planner
+WORKDIR /usr/src/balasolu
+COPY ./src/api ./src/api
+WORKDIR /usr/src/balasolu/src/api
+RUN cargo chef prepare --recipe-path recipe.json
+
+
+FROM chef AS cacher
+COPY --from=planner /usr/src/balasolu/src/api/recipe.json /usr/src/balasolu/src/api/recipe.json
+WORKDIR /usr/src/balasolu/src/api
+RUN --mount=type=cache,target=/usr/local/cargo/registry \
+    --mount=type=cache,target=/usr/src/balasolu/src/api/target \
+    cargo chef cook --release --recipe-path recipe.json
+
+
+FROM chef AS builder
+WORKDIR /usr/src/balasolu
+COPY ./src/api ./src/api
+COPY --from=cacher /usr/src/balasolu/src/api/target /usr/src/balasolu/src/api/target
+COPY --from=cacher $CARGO_HOME $CARGO_HOME
+WORKDIR /usr/src/balasolu/src/api
+RUN --mount=type=cache,target=/usr/local/cargo/registry \
+    cargo build --release
+
+
+FROM base AS production
+COPY --from=builder /usr/src/balasolu/src/api/target/release/api /usr/local/bin/api
+CMD ["api"]
