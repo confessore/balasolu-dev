@@ -1,5 +1,5 @@
 import React from 'react';
-import Bars4Icon from '@heroicons/react/24/outline/Bars4Icon';
+import Bars3Icon from '@heroicons/react/24/outline/Bars3Icon';
 
 function TopBar() {
     return (
@@ -7,11 +7,11 @@ function TopBar() {
             <div className="flex space-y-2 justify-between items-center px-2">
                 <div>
                     <p className="text-lg font-bold">
-                        Community and Career Solutions
+                        balasolu
                     </p>
                 </div>
                 <div>
-                    <Bars4Icon className="w-6 h-6"/>
+                    <Bars3Icon className="w-6 h-6"/>
                 </div>
             </div>
         </div>
