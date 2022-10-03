@@ -2,7 +2,7 @@ import React from 'react';
 
 function Contact() {
     return (
-        <div className="md:flex bg-slate-200 rounded-xl m-1 p-8 md:p-0 dark:bg-slate-800 bg-opacity-90">
+        <div className="md:flex bg-zinc-200 rounded-xl m-1 p-8 md:p-0 dark:bg-zinc-800 bg-opacity-90">
             <div className="pt-6 md:p-8 text-center md:text-left space-y-4">
                 <div>
                     <p className="text-lg font-medium">
@@ -15,7 +15,7 @@ function Contact() {
                             <p>1515 E Silver Springs Blvd., Ste. 137</p>
                             <p>Ocala, Florida 34470</p>
                         </div>
-                        <div className="text-slate-700 dark:text-slate-500">
+                        <div className="text-zinc-700 dark:text-zinc-500">
                             "We are inside the Cascades"
                         </div>
                     </div>
@@ -23,7 +23,7 @@ function Contact() {
                         <div className="text-sky-500 dark:text-sky-400">
                             <a href="tel:18334227562"><strong>+1 (833) 4-CCS-JOB</strong></a>
                         </div>
-                        <div className="text-slate-700 dark:text-slate-500">
+                        <div className="text-zinc-700 dark:text-zinc-500">
                             <a href="tel:18334227562"><strong>+1 (833) 422-7562</strong></a>
                         </div>
                     </div>

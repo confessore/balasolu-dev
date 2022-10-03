@@ -3,7 +3,7 @@ import Bars3Icon from '@heroicons/react/24/outline/Bars3Icon';
 
 function TopBar() {
     return (
-        <div className="sticky top-0 w-full p-4 bg-slate-200 dark:bg-slate-800 bg-opacity-95">
+        <div className="sticky top-0 w-full p-4 bg-zinc-200 dark:bg-zinc-800 bg-opacity-95">
             <div className="flex space-y-2 justify-between items-center px-2">
                 <div>
                     <p className="text-lg font-bold">
