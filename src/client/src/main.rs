@@ -23,7 +23,7 @@ async fn main() -> std::io::Result<()> {
             .route("/", web::get().to(react_app))
             .service(Files::new("/", "/usr/local/bin/react-app/build/").index_file("index.html"))
     })
-    .bind(("0.0.0.0", 3002))?
+    .bind(("0.0.0.0", 3001))?
     .run()
     .await
 }

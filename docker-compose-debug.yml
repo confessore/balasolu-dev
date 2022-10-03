@@ -1,19 +1,23 @@
-version: "3.9"
+version: "3.8"
 
 services:
-
-    api:
-        build:
-            context: .
-            dockerfile: etc/docker/Dockerfile.api.debug
-            target: production
-        restart: always
 
     client:
         build:
             context: .
             dockerfile: etc/docker/Dockerfile.client.debug
             target: production
+        ports:
+            - 3001
+        restart: always
+
+    api:
+        build:
+            context: .
+            dockerfile: etc/docker/Dockerfile.api.debug
+            target: production
+        ports:
+            - 3002
         restart: always
 
     nginx:
