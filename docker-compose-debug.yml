@@ -16,6 +16,10 @@ services:
             context: .
             dockerfile: etc/docker/Dockerfile.api.debug
             target: production
+        secrets:
+            - postgres-connectionstring
+        environment:
+            - APPLICATION__POSTGRESOPTIONS__CONNECTIONSTRING=/run/secrets/postgres-connectionstring
         ports:
             - 3002:3002
         restart: always
@@ -53,6 +57,8 @@ secrets:
         file: secrets/postgres-user
     postgres-password:
         file: secrets/postgres-password
+    postgres-connectionstring:
+        file: secrets/postgres-connectionstring
     discord-token:
         file: secrets/discord-token
 

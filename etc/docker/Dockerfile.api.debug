@@ -1,4 +1,6 @@
 FROM debian:bullseye-slim AS base
+RUN apt-get update -y
+RUN apt-get install -y libpq-dev
 WORKDIR /
 
 
