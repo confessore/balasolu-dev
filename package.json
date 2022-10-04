@@ -1,5 +1,0 @@
-{
-  "dependencies": {
-    "react-app": "file:src/client/react-app"
-  }
-}
