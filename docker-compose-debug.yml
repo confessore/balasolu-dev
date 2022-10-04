@@ -31,3 +31,32 @@ services:
             - 80:80
             - 443:443
         restart: always
+
+    postgres:
+        image: postgres
+        secrets:
+            - postgres-user
+            - postgres-password
+        environment:
+            - PGDATA=/var/lib/postgresql/data/pgdata
+            - POSTGRES_USER_FILE/run/secrets/postgres-user
+            - POSTGRES_PASSWORD_FILE=/run/secrets/postgres-password
+        ports:
+            - 5432:5432
+        volumes:
+            - balasolu-postgres:/var/lib/postgresql/data
+        restart: always
+
+secrets:
+
+    postgres-user:
+        file: secrets/postgres-user
+    postgres-password:
+        file: secrets/postgres-password
+    discord-token:
+        file: secrets/discord-token
+
+volumes:
+
+    balasolu-postgres:
+        external: true

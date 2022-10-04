@@ -1,22 +1,23 @@
 import React from 'react';
+import ServiceButton from './ServiceButton';
 
 function Contact() {
     return (
-        <div className="md:flex bg-zinc-200 rounded-xl m-1 p-8 md:p-0 dark:bg-zinc-800 bg-opacity-90">
-            <div className="pt-6 md:p-8 text-center md:text-left space-y-4">
+        <div className="md:flex rounded-xl m-1 md:m-0 p-8 md:p-0 bg-zinc-200 dark:bg-zinc-800 bg-opacity-90">
+            <div className="md:p-8 text-center md:text-left space-y-4">
                 <div>
                     <p className="text-lg font-medium">
-                        If you have questions about what programs we have available to you, feel free to give us a call
+                        open a chat on discord
                     </p>
                 </div>
                 <div className="grid grid-cols-2 font-medium justify-around items-center">
                     <div>
-                        <div className="text-sky-500 dark:text-sky-400">
+                        <div className="text-cyan-500 dark:text-cyan-400">
                             <p>1515 E Silver Springs Blvd., Ste. 137</p>
                             <p>Ocala, Florida 34470</p>
                         </div>
                         <div className="text-zinc-700 dark:text-zinc-500">
-                            "We are inside the Cascades"
+                            <ServiceButton title="Open a Discord DM" />
                         </div>
                     </div>
                     <div>
