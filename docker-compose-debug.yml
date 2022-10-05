@@ -18,8 +18,12 @@ services:
             target: production
         secrets:
             - postgres-connectionstring
+            - cosmos-account
+            - cosmos-key
         environment:
             - APPLICATION__POSTGRESOPTIONS__CONNECTIONSTRING=/run/secrets/postgres-connectionstring
+            - APPLICATION__COSMOSOPTIONS__ACCOUNT=/run/secrets/cosmos-account
+            - APPLICATION__COSMOSOPTIONS__KEY=/run/secrets/cosmos-key
         ports:
             - 3002:3002
         restart: always
@@ -61,6 +65,10 @@ secrets:
         file: secrets/postgres-connectionstring
     discord-token:
         file: secrets/discord-token
+    cosmos-account:
+        file: secrets/cosmos-account
+    cosmos-key:
+        file: secrets/cosmos-key
 
 volumes:
 
