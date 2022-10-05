@@ -1,3 +1,6 @@
+use azure_data_cosmos::{
+    CosmosEntity
+};
 use diesel::prelude::*;
 use serde::{
     Serialize,
@@ -14,4 +17,12 @@ pub struct User {
 
 impl User {
 
+}
+
+impl CosmosEntity for User {
+    type Entity = String;
+
+    fn partition_key(&self) -> Self::Entity {
+        self.id.clone()
+    }
 }
