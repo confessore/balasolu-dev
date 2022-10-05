@@ -5,6 +5,10 @@ use diesel::{pg::{PgConnection, Pg}, Connection};
 use diesel_migrations::{embed_migrations, EmbeddedMigrations, MigrationHarness};
 pub const MIGRATIONS: EmbeddedMigrations = embed_migrations!("./migrations/");
 use serde::{Deserialize, Serialize};
+mod models;
+use crate::{
+    models::user::{User}
+};
 
 fn run_migrations(connection: &mut impl MigrationHarness<Pg>) -> Result<(), Box<dyn std::error::Error + Send + Sync + 'static>> {
 
@@ -63,12 +67,7 @@ async fn main() -> std::io::Result<()> {
     let cosmos_client = CosmosClient::new(&cosmos_account, cosmos_authorization_token);
     let cosmos_database = cosmos_client.database_client("balasolu");
     let cosmos_collection = cosmos_database.collection_client("users");
-    let users = cosmos_collection.create_document(MySampleStruct {
-        id: format!(""),
-        string: "".to_owned(),
-        number: 100
-    }).into_future().await.unwrap_or_else(|_| panic!("could not get users"));
-
+    cosmos_collection.create_document(User { id: String::from("1234"), created_at: 0, email: String::from("example@example.com"), username: String::from("example") }).is_upsert(true).into_future().await.unwrap_or_else(|_| panic!("could not insert document"));
     let _result = run_migrations(&mut connection).unwrap_or_else(|_| panic!("error running migrations"));
     HttpServer::new(|| {
         let cors = Cors::default().allow_any_origin().supports_credentials();
